@@ -1,0 +1,11 @@
+# create this file in the folder you want to work in ghetto :
+#!/usr/local/bin/expect -f
+set src [lindex $argv 0]
+set dst [lindex $argv 1]
+set timeout -1
+spawn scp $src $dst
+set pass "netmenupass"
+expect {
+    password: {send "$pass\r" ; exp_continue}
+    eof exit
+}
