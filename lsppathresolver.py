@@ -6,11 +6,11 @@ import socket
 
 def read_paths ():
     fulllist = []
-    for file in glob.glob("sin*messages*"):
+    for file in glob.glob("*96*messages*"):
             print 'reading ' + file
             fullfile = (open(file).read().splitlines())
             for x in fullfile:
-                if 'RPD_MPLS_LSP_CHANGE'in x :
+                if 'RPD_MPLS_LSP_CHANGE'in x and 'Jun 16' in x :
                     if 'flag' in x:
                         fulllist.append(x.split())
     print 'done reading'
@@ -29,9 +29,15 @@ def convert_paths (newpaths):
     if rest in dnsdict:
          z.append(dnsdict[rest])
     if rest not in dnsdict:
-         a=socket.gethostbyaddr(rest)[0]
-         dnsdict[rest] = a.split('.',1)[0]
-         z.append(a.split('.',1)[0])
+         try :
+          a=socket.gethostbyaddr(rest)[0]
+         except :
+          print "Unknown : " + rest
+          a=rest
+         #dnsdict[rest] = a.split('.',1)[0]
+         dnsdict[rest] = a
+         z.append(a)
+         #z.append(a.split('.',1)[0])
          a='None'
   convertedpaths.append(z)
  print 'done converting'
