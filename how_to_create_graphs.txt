@@ -21,13 +21,13 @@ cat totalout totalout1 > totalout24
 #scatter plot of p5 and p95
 rm p5p95scatterplotresv;
 ls *.log | while read r; do
-    gawk '/TU/ {a[$1][i++]=$(NF-1)} END {for (l in a) { data=asort(a[l]); p50= int(data*0.50);p5= int(data*0.05);p95= int(data*0.95); {print l,a[l][p5]*8,a[l][p50]*8,a[l][p95]*8}}}' ${r}.* > ${r}.resv 
+    gawk '/TU/||/C2/ {a[$1][i++]=$(NF-1)} END {for (l in a) { data=asort(a[l]); p50= int(data*0.50);p5= int(data*0.05);p95= int(data*0.95); {print l,a[l][p5]*8,a[l][p50]*8,a[l][p95]*8}}}' ${r}.* > ${r}.resv 
 done ; 
 cat *.resv > p5p95scatterplotresv
 
 rm p5p95scatterplotutil;
 ls *.log | while read r; do
-	gawk '/TU/ {a[$1][i++]=$14} END {for (l in a) { data=asort(a[l]); p50= int(data*0.50);p5= int(data*0.05);p95= int(data*0.95); {print l,a[l][p5]*8,a[l][p50]*8,a[l][p95]*8}}}' ${r}.* > ${r}.util
+	gawk '/TU/||/C2/ {a[$1][i++]=$14} END {for (l in a) { data=asort(a[l]); p50= int(data*0.50);p5= int(data*0.05);p95= int(data*0.95); {print l,a[l][p5]*8,a[l][p50]*8,a[l][p95]*8}}}' ${r}.* > ${r}.util
 done
 cat *.util > p5p95scatterplotutil
 
