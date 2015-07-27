@@ -1,0 +1,35 @@
+from xml.sax import saxutils
+from xml.sax import make_parser
+from xml.sax.handler import feature_namespaces
+
+class FindIssue(saxutils.DefaultHandler):
+    def __init__(self, title, number):
+        self.search_title, self.search_number = title, number
+
+    def startElement(self, name, attrs):
+        # If it's not a comic element, ignore it
+        if name != 'comic': return
+
+        # Look for the title and number attributes (see text)
+        title = attrs.get('title', None)
+        number = attrs.get('number', None)
+        if (title == self.search_title and 
+	    number == self.search_number):
+            print title, '#' + str(number), 'found'
+
+if __name__ == '__main__':
+    # Create a parser
+    parser = make_parser()
+
+    # Tell the parser we are not interested in XML namespaces
+    parser.setFeature(feature_namespaces, 0)
+
+    # Create the handler
+    dh = FindIssue('Sandman', '62')
+
+    # Tell the parser to use our handler
+    parser.setContentHandler(dh)
+
+    # Parse the input
+    parser.parse("file.xml")
+
