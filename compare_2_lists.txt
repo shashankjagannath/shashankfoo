@@ -1,0 +1,3 @@
+southernpathresv = []
+for y in lsplist:
+ southernpathresv.append([x for x in p5p95scatterplotresv if y in x])
